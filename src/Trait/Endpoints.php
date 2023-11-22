@@ -5,227 +5,227 @@ namespace Tda\LaravelBillwerk\Trait;
 
 trait Endpoints
 {
-    public function AccountingExportFiles(?string $id = null)
+    public static function AccountingExportFiles(?string $id = null)
     {
-        $this->endpoint = 'accountingexportfiles' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'accountingexportfiles' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function annulate()
+    public static function annulate()
     {
-        $this->endpoint .= '/annulate';
-        return $this;
+        self::$endpoint .= '/annulate';
+        return new Static();
     }
 
-    public function approve()
+    public static function approve()
     {
-        $this->endpoint .= '/approve';
-        return $this;
+        self::$endpoint .= '/approve';
+        return new Static();
     }
 
-    public function bill()
+    public static function bill()
     {
-        $this->endpoint .= '/bill';
-        return $this;
+        self::$endpoint .= '/bill';
+        return new Static();
     }
 
-    public function cancellationPreview()
+    public static function cancellationPreview()
     {
-        $this->endpoint .= '/cancellationpreview';
-        return $this;
+        self::$endpoint .= '/cancellationpreview';
+        return new Static();
     }
 
-    public function changes(?string $id = null)
+    public static function changes(?string $id = null)
     {
-        preg_match('/contracts\/(?<id>\w*)/', $this->endpoint, $match);
+        preg_match('/contracts\/(?<id>\w*)/', self::$endpoint, $match);
         if(isset($match['id'])) {
-            $this->params = [
+            self::$params = [
                 'contractId' => $match['id']
             ];
         }
-        $this->endpoint = '/contractchanges'  . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = '/contractchanges'  . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function contracts(?string $id = null)
+    public static function contracts(?string $id = null)
     {
-        preg_match('/customers\/(?<id>\w*)/', $this->endpoint, $match);
+        preg_match('/customers\/(?<id>\w*)/', self::$endpoint, $match);
         if(isset($match['id'])) {
-            $this->endpoint .= '/contracts';
+            self::$endpoint .= '/contracts';
         } else {
-            $this->endpoint = 'contracts' . (isset($id) ? '/' . $id : '');
+            self::$endpoint = 'contracts' . (isset($id) ? '/' . $id : '');
         }
-        return $this;
+        return new Static();
     }
 
-    public function commit()
+    public static function commit()
     {
-        $this->endpoint .= '/commit';
-        return $this;
+        self::$endpoint .= '/commit';
+        return new Static();
     }
 
-    public function componentSubscriptions(?string $id = null)
+    public static function componentSubscriptions(?string $id = null)
     {
         if($id) {
-            $this->endpoint = 'componentsubscriptions/'. $id . '/replace';
+            self::$endpoint = 'componentsubscriptions/'. $id . '/replace';
         } else {
-            $this->endpoint .= '/componentsubscriptions';
+            self::$endpoint .= '/componentsubscriptions';
         }
-        return $this;
+        return new Static();
     }
 
-    public function customers(?string $id = null)
+    public static function customers(?string $id = null)
     {
-        $this->endpoint = 'customers' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'customers' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function customFields()
+    public static function customFields()
     {
-        $this->endpoint .= '/customfields';
-        return $this;
+        self::$endpoint .= '/customfields';
+        return new Static();
     }
 
-    public function decline()
+    public static function decline()
     {
-        $this->endpoint .= '/decline';
-        return $this;
+        self::$endpoint .= '/decline';
+        return new Static();
     }
 
-    public function discounts(string $id)
+    public static function discounts(string $id)
     {
-        $this->endpoint = 'discounts' . '/' . $id;
-        return $this;
+        self::$endpoint = 'discounts' . '/' . $id;
+        return new Static();
     }
 
-    public function discountSubscriptions()
+    public static function discountSubscriptions()
     {
-        $this->endpoint .= '/discountsubscriptions';
-        return $this;
+        self::$endpoint .= '/discountsubscriptions';
+        return new Static();
     }
 
-    public function download()
+    public static function download()
     {
-        $this->endpoint .= '/download';
-        return $this;
+        self::$endpoint .= '/download';
+        return new Static();
     }
 
-    public function downloadLink()
+    public static function downloadLink()
     {
-        $this->endpoint .= '/downloadlink';
-        return $this;
+        self::$endpoint .= '/downloadlink';
+        return new Static();
     }
 
-    public function end()
+    public static function end()
     {
-        $this->endpoint .= '/end';
-        return $this;
+        self::$endpoint .= '/end';
+        return new Static();
     }
 
-    public function invoices(?string $id = null)
+    public static function invoices(?string $id = null)
     {
-        $this->endpoint = 'invoices' . '/' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'invoices' . '/' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function invoiceDrafts(?string $id = null)
+    public static function invoiceDrafts(?string $id = null)
     {
-        $this->endpoint = 'invoicedrafs' . '/' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'invoicedrafs' . '/' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function orders(?string $id = null)
+    public static function orders(?string $id = null)
     {
-        $this->endpoint = 'orders' . '/' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'orders' . '/' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function payment()
+    public static function payment()
     {
-        $this->endpoint .= '/payment';
-        return $this;
+        self::$endpoint .= '/payment';
+        return new Static();
     }
 
-    public function paymentTransactions()
+    public static function paymentTransactions()
     {
-        $this->endpoint = 'paymenttransactions';
-        return $this;
+        self::$endpoint = 'paymenttransactions';
+        return new Static();
     }
 
-    public function plans(?string $id = null)
+    public static function plans(?string $id = null)
     {
-        $this->endpoint = 'plans' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'plans' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function planGroups(?string $id = null): self
+    public static function planGroups(?string $id = null): self
     {
-        $this->endpoint = 'plangroups' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'plangroups' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function planVariants(?string $id = null): self
+    public static function planVariants(?string $id = null): self
     {
-        $this->endpoint = 'planvariants' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'planvariants' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function preview()
+    public static function preview()
     {
-        $this->endpoint .= '/preview';
-        return $this;
+        self::$endpoint .= '/preview';
+        return new Static();
     }
 
-    public function previewNextRecurring()
+    public static function previewNextRecurring()
     {
-        $this->endpoint .= '/previewnextrecurring';
-        return $this;
+        self::$endpoint .= '/previewnextrecurring';
+        return new Static();
     }
 
-    public function priceLists(?string $id = null)
+    public static function priceLists(?string $id = null)
     {
-        $this->endpoint = 'pricelists' . '/' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'pricelists' . '/' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function productInfo()
+    public static function productInfo()
     {
-        $this->endpoint = 'productinfo';
-        return $this;
+        self::$endpoint = 'productinfo';
+        return new Static();
     }
 
-    public function ratedItems()
+    public static function ratedItems()
     {
-        $this->endpoint .= '/rateditems';
-        return $this;
+        self::$endpoint .= '/rateditems';
+        return new Static();
     }
 
-    public function selfServiceToken()
+    public static function selfServiceToken()
     {
-        $this->endpoint .= '/selfservicetoken';
-        return $this;
+        self::$endpoint .= '/selfservicetoken';
+        return new Static();
     }
 
-    public function subscriptions()
+    public static function subscriptions()
     {
-        preg_match('/contracts\/(?<id>\w*)/', $this->endpoint, $match);
+        preg_match('/contracts\/(?<id>\w*)/', self::$endpoint, $match);
         if(isset($match['id'])) {
-            $this->endpoint .= '/subscriptions';
+            self::$endpoint .= '/subscriptions';
         } else {
-            $this->endpoint = 'subscriptions';
+            self::$endpoint = 'subscriptions';
         }
-        return $this;
+        return new Static();
     }
 
-    public function usage(?string $id = null)
+    public static function usage(?string $id = null)
     {
-        $this->endpoint .= '/usage' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint .= '/usage' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 
-    public function webhooks(?string $id = null)
+    public static function webhooks(?string $id = null)
     {
-        $this->endpoint = 'webhooks' . (isset($id) ? '/' . $id : '');
-        return $this;
+        self::$endpoint = 'webhooks' . (isset($id) ? '/' . $id : '');
+        return new Static();
     }
 }

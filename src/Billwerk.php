@@ -10,97 +10,101 @@ class Billwerk
 
     use Endpoints;
 
-    protected string $endpoint = '';
+    protected static string $endpoint = '';
     protected string $method;
     protected Client $client;
-    protected bool $isSandbox = false;
-    protected ?string $client_id;
-    protected ?string $client_secret;
-    protected array $params;
-    protected string $error;
-    protected bool $isFailed = false;
+    protected static bool $isSandbox = false;
+    protected static string $client_id;
+    protected static string $client_secret;
+    protected static array $params = [];
+    protected static string $error;
+    protected static bool $isFailed = false;
 
 
-    public function __construct(?string $client_id = null, ?string $client_secret = null)
+    public static function isSandbox(): void
     {
-        $this->client_id = $client_id ?? config('billwerk.client_id');
-        $this->client_secret = $client_secret ?? config('billwerk.client_secret');
+        self::$isSandbox = true;
     }
 
-    public function isSandbox(): void
+    public static function credentials(string $client_id, string $client_secret): void
     {
-        $this->isSandbox = true;
+        self::$client_id = $client_id;
+        self::$client_secret = $client_secret;
     }
 
     public function get(): array
     {
-        return $this->call(Client::METHOD_GET);
+        return self::call(Client::METHOD_GET);
     }
 
     public function create(array $params): array
     {
-        $this->params = $params;
-        return $this->call(Client::METHOD_POST);
+        self::$params = array_merge(self::$params, $params);
+        return self::call(Client::METHOD_POST);
     }
 
     public function replace(array $params): array
     {
-        $this->params = $params;
-        return $this->call(Client::METHOD_PUT);
+        self::$params = array_merge(self::$params, $params);
+        return self::call(Client::METHOD_PUT);
     }
 
     public function update(array $params): array
     {
-        $this->params = $params;
-        return $this->call(Client::METHOD_PATCH);
+        self::$params = array_merge(self::$params, $params);
+        return self::call(Client::METHOD_PATCH);
     }
 
     public function delete(): array
     {
-        return $this->call(Client::METHOD_DELETE);
+        return self::call(Client::METHOD_DELETE);
     }
 
     public function call(string $method): array
     {
         $this->loadClient();
         try {
-            return $this->client->call($method, $this->endpoint, $this->params ?? []) ?? [];
+            return $this->client->call($method, self::$endpoint, self::$params ?? []) ?? [];
         } catch (\Exception $e) {
-            $this->error = $e->getMessage();
-            $this->isFailed = true;
+            self::$error = $e->getMessage();
+            self::$isFailed = true;
             return [];
         }
     }
 
-    public function showError(): ?array
+    public static function showError(): ?array
     {
         return [
-            'error'     => $this->error ?? '',
-            'endpoint'  => $this->endpoint,
-            'params'    => $this->params ?? ''
+            'error'     => self::$error ?? '',
+            'endpoint'  => self::$endpoint,
+            'params'    => self::$params ?? ''
         ];
+    }
+
+    public static function isFailed(): bool
+    {
+        return self::$isFailed;
     }
 
     public function filter(array $params): self
     {
-        $this->params = $params;
+        self::$params = array_merge(self::$params, $params);
         return $this;
     }
 
     protected function loadClient(): void
     {
-        if(!isset($this->client)) {
+        $client_id = self::$client_id ?? config('billwerk.client_id');
+        $client_secret = self::$client_secret ?? config('billwerk.client_secret');
+        $isSandbox = self::$isSandbox ?? false;
+
+        if(!isset(self::$client)) {
             $this->client = new Client(
-                $this->client_id,
-                $this->client_secret,
-                $this->isSandbox
+                $client_id,
+                $client_secret,
+                $isSandbox
             );
         }
-    }
-
-    public function isFailed(): bool
-    {
-        return $this->isFailed;
     }
 
 }
