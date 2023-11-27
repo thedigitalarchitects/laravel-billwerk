@@ -94,8 +94,8 @@ class Billwerk
 
     protected function loadClient(): void
     {
-        $client_id = self::$client_id ?? config('billwerk.client_id');
-        $client_secret = self::$client_secret ?? config('billwerk.client_secret');
+        $client_id = self::$client_id ?? config('services.billwerk.client_id');
+        $client_secret = self::$client_secret ?? config('services.billwerk.client_secret');
         $isSandbox = self::$isSandbox ?? false;
 
         if(!isset(self::$client)) {

@@ -50,7 +50,7 @@ trait Endpoints
     public static function contracts(?string $id = null)
     {
         preg_match('/customers\/(?<id>\w*)/', self::$endpoint, $match);
-        if(isset($match['id'])) {
+        if(isset($match['id']) && !isset($id)) {
             self::$endpoint .= '/contracts';
         } else {
             self::$endpoint = 'contracts' . (isset($id) ? '/' . $id : '');
@@ -61,6 +61,12 @@ trait Endpoints
     public static function commit()
     {
         self::$endpoint .= '/commit';
+        return new Static();
+    }
+
+    public static function components(?string $id = null)
+    {
+        self::$endpoint = 'components' . (isset($id) ? '/' . $id : '');
         return new Static();
     }
 
